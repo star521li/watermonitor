@@ -1,0 +1,16 @@
+E:\VS Project\BiYeSheJi\NongChang\NongChang\bin\Debug\NongChang.exe
+E:\VS Project\BiYeSheJi\NongChang\NongChang\bin\Debug\NongChang.pdb
+E:\VS Project\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.csprojResolveAssemblyReference.cache
+E:\VS Project\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.Form1.resources
+E:\VS Project\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.Properties.Resources.resources
+E:\VS Project\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.csproj.GenerateResource.Cache
+E:\VS Project\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.exe
+E:\VS Project\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.pdb
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.exe
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.pdb
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\bin\Debug\NongChang.exe
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\bin\Debug\NongChang.pdb
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.csprojResolveAssemblyReference.cache
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.Form1.resources
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.Properties.Resources.resources
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.csproj.GenerateResource.Cache

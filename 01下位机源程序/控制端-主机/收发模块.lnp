@@ -1,0 +1,7 @@
+"STARTUP.obj",
+"main.obj",
+"NRF24L01.obj",
+"Delay.obj",
+"lcd1602.obj" 
+TO "ÊÕ·¢Ä£¿é" 
+RAMSIZE(256) 

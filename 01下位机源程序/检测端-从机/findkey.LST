@@ -1,0 +1,69 @@
+C51 COMPILER V9.00   FINDKEY                                                               08/28/2011 10:28:35 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE FINDKEY
+OBJECT MODULE PLACED IN findkey.OBJ
+COMPILER INVOKED BY: D:\Program Files\keil uvision4破解版下载\C51\BIN\C51.EXE findkey.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg52.h>
+   2          #include"delay.h"
+   3          
+   4          #define port P0
+   5          
+   6          char findkey ()
+   7          {
+   8   1              unsigned char line,row,temp1,temp2 ;
+   9   1              unsigned char  key=0;
+  10   1              
+  11   1      
+  12   1              temp1=0x01;                         //设置行检测，以便于后面取反后保证有一位为0
+  13   1              for( line=0 ; line<4 ; line++ )
+  14   1                      {
+  15   2                      port=0xf0;
+  16   2                      port=~temp1;                                        //拉低第一行
+  17   2                      temp1<<=1;                                          //逐行拉低
+  18   2                      if(  (port&0xf0)!= 0xf0  )        //****此时有键按下
+  19   2                      {
+  20   3                                      Delay_x_ms(10);  
+  21   3                                      if(  (port&0xf0)!= 0xf0  )       //按键消抖！！！！
+  22   3                              {
+  23   4                                      temp2=0x10;
+  24   4                              for(row=0;row<4;row++)            //列检测
+  25   4                                          {
+  26   5                                              if((port&temp2)==0x00)          //判断哪一列按下
+  27   5                                                      {
+  28   6                                                              key = 4*line + row ;                                                    
+  29   6                                                                                                
+  30   6                                                          while((port&0xf0)!=0xf0);     //等待按键抬起
+  31   6                                                          
+  32   6                                                              return(key);
+  33   6                                               
+  34   6                                                      }
+  35   5                                              temp2<<=1;
+  36   5                                      }  
+  37   4                                                      
+  38   4                       
+  39   4                              }  
+  40   3                              }
+  41   2              } 
+  42   1       
+  43   1        return(-1);
+  44   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     94    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V9.00   FINDKEY                                                               08/28/2011 10:28:35 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

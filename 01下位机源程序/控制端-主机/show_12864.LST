@@ -1,0 +1,330 @@
+C51 COMPILER V9.00   SHOW_12864                                                            08/28/2011 10:28:35 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE SHOW_12864
+OBJECT MODULE PLACED IN show_12864.OBJ
+COMPILER INVOKED BY: D:\Program Files\keil uvision4破解版下载\C51\BIN\C51.EXE show_12864.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg52.h>
+   2          sbit EN=P2^5;
+   3          sbit RS=P2^7;
+   4          sbit RW=P2^6;
+   5          sbit BUSY=P0^7;
+   6            
+   7          
+   8          #define dataport P0
+   9          //sbit PSB=P3^7;
+  10          //普通指令模式：0x30
+  11          //扩展指令：0x36
+  12          
+  13          unsigned int b=4;
+  14          void lcd_busy();
+  15          
+  16          
+  17          
+  18          static void delayus(unsigned int x)
+  19          {
+  20   1        while(x--);
+  21   1      }
+  22          
+  23          
+  24          void show_12864_com(bit mode,unsigned char dat)//-----------------命令（0）与写数据（1）
+  25                  { 
+  26   1              EA=0;
+  27   1                 lcd_busy();
+  28   1                 RS=mode;
+  29   1                 RW=0;
+  30   1                 EN=0;
+  31   1                 dataport=dat;
+  32   1                 delayus(5);
+  33   1                 EN=1;
+  34   1                 delayus(1);
+  35   1                 EN=0;
+  36   1                 //delay(40);
+  37   1              EA=1;
+  38   1              }
+  39          void show_12864_xy(unsigned char x,unsigned char y)//--------------位置
+  40              {
+  41   1                      switch (x)
+  42   1                      {
+  43   2                     case 1:x=0x80;break;
+  44   2                         case 2:x=0x90;break;
+  45   2                         case 3:x=0x88;break;
+  46   2                         case 4:x=0x98;break;
+  47   2                      }
+  48   1                show_12864_com(0,x+y);
+  49   1              }
+  50          
+  51          
+  52          
+  53          void show_12864_Write(unsigned char  x,unsigned char  y,unsigned char  date)     //定点写数据
+  54          {
+  55   1              show_12864_xy(x,y);
+C51 COMPILER V9.00   SHOW_12864                                                            08/28/2011 10:28:35 PAGE 2   
+
+  56   1              show_12864_com(1,date);
+  57   1      
+  58   1      
+  59   1      }
+  60          
+  61          
+  62           
+  63          void show_12864_Clear()                                          //LCD清屏 
+  64          {
+  65   1        unsigned char x,y;
+  66   1        for(x=0;x<8;x++)
+  67   1         {
+  68   2               for(y=0;y<128;y++)
+  69   2                show_12864_Write(x,y,0x00);
+  70   2         }
+  71   1      }
+  72          
+  73          
+  74          
+  75          
+  76          
+  77          
+  78          void show_12864_char(char x)                        //显示2位的整数
+  79          { char a,b;
+  80   1        a=x/10;b=x%10;
+  81   1        show_12864_com(1,a+48);
+  82   1        show_12864_com(1,b+48);
+  83   1      }
+  84          
+  85          
+  86          void show_12864_3int(unsigned int x)                 //显示3位的整数
+  87          {  char a,b,c;  
+  88   1          a=x/100;
+  89   1              b=x%100/10;
+  90   1              c=x%10;
+  91   1              show_12864_com(1,a+48);
+  92   1              show_12864_com(1,b+48);
+  93   1              show_12864_com(1,c+48);
+  94   1      }
+  95          
+  96          void show_12864_4int(unsigned int x)                 //显示4位的整数
+  97          {  char a,b,c,d;  
+  98   1          a=x/1000;
+  99   1              b=x%1000/100;
+ 100   1              c=x%100/10;
+ 101   1              d=x%10;
+ 102   1              show_12864_com(1,a+48);
+ 103   1              show_12864_com(1,b+48);
+ 104   1              show_12864_com(1,c+48);
+ 105   1              show_12864_com(1,d+48);
+ 106   1      }
+ 107          
+ 108          
+ 109          
+ 110          
+ 111          void show_12864_5int(unsigned int x)                 //显示5位的整数
+ 112          {
+ 113   1        char a,b,c,d,e;
+ 114   1        a=x/10000;
+ 115   1        b=x%10000/1000;
+ 116   1        c=x%1000/100;
+ 117   1        d=x%100/10;
+C51 COMPILER V9.00   SHOW_12864                                                            08/28/2011 10:28:35 PAGE 3   
+
+ 118   1        e=x%10;
+ 119   1        show_12864_com(1,a+48);
+ 120   1        show_12864_com(1,b+48);
+ 121   1        show_12864_com(1,c+48);
+ 122   1        show_12864_com(1,d+48);
+ 123   1        show_12864_com(1,e+48);
+ 124   1      }
+ 125          
+ 126          
+ 127          
+ 128          void show_12864_2float(   float x )                //显示2位的小数
+ 129          {
+ 130   1        unsigned int   number;
+ 131   1        unsigned char  a,b,c;
+ 132   1          number = x * 100;
+ 133   1          a=number/100;
+ 134   1              b=number%100/10;
+ 135   1              c=number%10;
+ 136   1              show_12864_com(1,a+48);
+ 137   1              show_12864_com(1,'.');
+ 138   1              show_12864_com(1,b+48);
+ 139   1              show_12864_com(1,c+48);
+ 140   1      }
+ 141          
+ 142          
+ 143          
+ 144          void show_12864_3float(   float x )                //显示3位的小数
+ 145          {
+ 146   1        unsigned int   number;
+ 147   1        unsigned char  a,b,c,d;
+ 148   1          number = x * 1000;
+ 149   1              a=number/1000;
+ 150   1              b=number%1000/100;
+ 151   1              c=number%1000%100/10;
+ 152   1              d=number%10;
+ 153   1      
+ 154   1              show_12864_com(1,a+48);
+ 155   1              show_12864_com(1,'.');
+ 156   1              show_12864_com(1,b+48);
+ 157   1              show_12864_com(1,c+48);
+ 158   1          show_12864_com(1,d+48);
+ 159   1      }
+ 160          
+ 161          
+ 162          
+ 163          
+ 164          void printf(unsigned char *uc)                      //打印一串字符
+ 165          { 
+ 166   1        while(*uc!='\0')
+ 167   1        {
+ 168   2          show_12864_com(1,*uc);uc++;
+ 169   2        }
+ 170   1      }
+ 171          
+ 172          
+ 173          
+ 174          void show_12864_init()//-------------------------------------------初始化
+ 175              {
+ 176   1              dataport =0XFF;
+ 177   1              show_12864_com(0,0x30);//普通指令模式
+ 178   1              show_12864_com(0,0x0c);//开显示  0x0c光标不显示 
+ 179   1              show_12864_com(0,0x06);//光标右移模式
+C51 COMPILER V9.00   SHOW_12864                                                            08/28/2011 10:28:35 PAGE 4   
+
+ 180   1              show_12864_com(0,0x01);//清屏
+ 181   1      
+ 182   1      //////// ///////////////自己写需要初始化的函数 /////////////
+ 183   1      
+ 184   1      /*      show_12864_xy(1,0);
+ 185   1              printf("  宽带放大器");
+ 186   1          show_12864_xy(2,0);
+ 187   1              printf("增  益:     dB");
+ 188   1              show_12864_xy(3,0);     
+ 189   1              printf("有效值:     Vrms");
+ 190   1              show_12864_xy(4,0);     
+ 191   1              printf("AGC 状态：关");
+ 192   1      */
+ 193   1      //////// ///////////////自己写需要初始化的函数 /////////////    
+ 194   1              }
+ 195          
+ 196          
+ 197          
+ 198          //------------------------------------------------------------------------------------------------------
+ 199          //                                                                                                                                                                                                              |
+ 200          //                                                      下面的用于画图                                                                                                                                                  |
+ 201          //------------------------------------------------------------------------------------------------------
+ 202          void lcd_busy()      //检测忙
+ 203          {
+ 204   1         dataport=0xff;
+ 205   1         RS=0;
+ 206   1         RW=1;
+ 207   1         EN=1;
+ 208   1         while(BUSY==1);
+ 209   1         EN=0;
+ 210   1      }
+ 211          unsigned char rb()       //读出字节
+ 212          {  unsigned char tmp;
+ 213   1         lcd_busy();
+ 214   1         RS=1;
+ 215   1         RW=1;
+ 216   1         EN=1;
+ 217   1         delayus(1);tmp=dataport;
+ 218   1         EN=0;
+ 219   1         return tmp;
+ 220   1      }
+ 221          unsigned int r2b(unsigned char y,unsigned char x)     //读出两个字节
+ 222          {  //y:0-31   x:0-15
+ 223   1         unsigned int tmp;
+ 224   1         show_12864_com(0,0x34);
+ 225   1         show_12864_com(0,0x80+y);
+ 226   1         show_12864_com(0,0x80+x);
+ 227   1         show_12864_com(0,0x30);
+ 228   1         rb();
+ 229   1         tmp=rb();
+ 230   1         tmp=tmp<<8|rb();
+ 231   1         show_12864_com(0,0x36);
+ 232   1         return tmp;
+ 233   1      }
+ 234          void write_gram(unsigned char y,unsigned char x,unsigned int dat)//     uchar code *img  写图形RAM
+ 235          {
+ 236   1         show_12864_com(0,0x34);
+ 237   1         show_12864_com(0,0x80+y);
+ 238   1         show_12864_com(0,0x80+x);
+ 239   1         show_12864_com(0,0x30);
+ 240   1         show_12864_com(1,(dat&0xff00)>>8);
+ 241   1         show_12864_com(1,dat&0x00ff);
+C51 COMPILER V9.00   SHOW_12864                                                            08/28/2011 10:28:35 PAGE 5   
+
+ 242   1         show_12864_com(0,0x36);
+ 243   1      }
+ 244          void dot(unsigned char x,unsigned char y)                        //打点
+ 245          {
+ 246   1         int tmp=0;
+ 247   1         unsigned char Vx,Vy;
+ 248   1         Vx=x/16;
+ 249   1         if(y>31){Vy=y-32;Vx=8+x/16;}
+ 250   1          else Vy=y; 
+ 251   1         tmp|=r2b(Vy,Vx);
+ 252   1         tmp|=1<<(15-(x%16)); 
+ 253   1         write_gram(Vy,Vx,tmp);
+ 254   1      }
+ 255          void line(unsigned char x1, unsigned char y1, unsigned char x2,unsigned char y2)      //画线
+ 256          {
+ 257   1        int x,y,i;
+ 258   1        float dx,dy;  
+ 259   1        dx=x2-x1;
+ 260   1        if(dx<0){dx=-dx;}
+ 261   1        dy=y2-y1;
+ 262   1        if(dy<0){dy=-dy;}
+ 263   1        if(dx>dy)
+ 264   1         {
+ 265   2                   if(x1<x2)
+ 266   2                         {
+ 267   3                           for(i=0;i<dx;i++)
+ 268   3                                {     dot(x1+i,y);
+ 269   4                                  y=y1+(dy/dx)*i;
+ 270   4                                }
+ 271   3                         }
+ 272   2         }
+ 273   1         else 
+ 274   1         {        
+ 275   2                   for(i=0;i<dy;i++)
+ 276   2                        {     dot(y1+i,x);
+ 277   3                          y=y1+(dx/dy)*i;
+ 278   3                        }              
+ 279   2         }
+ 280   1      }
+ 281          void clr_gram()                                   //清除RAM
+ 282          {  int i,j;  
+ 283   1        for(j=0;j<32;j++)
+ 284   1          for(i=0;i<16;i++)
+ 285   1              {  show_12864_com(0,0x34);
+ 286   2                 show_12864_com(0,0x80+j);
+ 287   2                 show_12864_com(0,0x80+i);
+ 288   2                 show_12864_com(0,0x30);
+ 289   2                 show_12864_com(1,0x00);
+ 290   2                 show_12864_com(1,0x00);
+ 291   2              }
+ 292   1      }
+ 293          
+ 294          //------------------------------------------------------------------------------------------------------
+ 295          //                                                                                                                                                                                                              | 
+ 296          //                                                                                                                                                                                                              |
+ 297          //------------------------------------------------------------------------------------------------------
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1638    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.00   SHOW_12864                                                            08/28/2011 10:28:35 PAGE 6   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2      70
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

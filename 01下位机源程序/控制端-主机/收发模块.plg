@@ -1,0 +1,60 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\star\Desktop\毕设上交材料\电子141 李思达\附录\01下位机源程序\控制端-主机\收发模块.uvproj
+Project File Date:  04/30/2018
+
+<h2>Output:</h2>
+compiling main.c...
+MAIN.C(82): warning C280: 'buff': unreferenced local variable
+main.c - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling NRF24L01.c...
+compiling Delay.c...
+compiling lcd1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?CHECKACK_RX?NRF24L01
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_NRFREVDATE?NRF24L01
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DDELAY?DELAY
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_LCDSHOWSTR?LCD1602
+    CALLER1: ?C_C51STARTUP
+    CALLER2: ?PR?TIMER0_ISR?MAIN
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_NRFWRITETXDATE?NRF24L01
+    CALLER1: ?C_C51STARTUP
+    CALLER2: ?PR?TIMER0_ISR?MAIN
+Program Size: data=117.0 xdata=0 code=1544
+creating hex file from "收发模块"...
+"收发模块" - 0 Error(s), 5 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling main.c...
+MAIN.C(82): warning C280: 'buff': unreferenced local variable
+compiling NRF24L01.c...
+compiling Delay.c...
+compiling lcd1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?CHECKACK_RX?NRF24L01
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_NRFREVDATE?NRF24L01
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DDELAY?DELAY
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_LCDSHOWSTR?LCD1602
+    CALLER1: ?C_C51STARTUP
+    CALLER2: ?PR?TIMER0_ISR?MAIN
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_NRFWRITETXDATE?NRF24L01
+    CALLER1: ?C_C51STARTUP
+    CALLER2: ?PR?TIMER0_ISR?MAIN
+Program Size: data=117.0 xdata=0 code=1544
+creating hex file from "收发模块"...
+"收发模块" - 0 Error(s), 6 Warning(s).

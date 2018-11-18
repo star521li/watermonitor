@@ -1,0 +1,161 @@
+C51 COMPILER V9.00   MAIN                                                                  06/10/2018 13:34:01 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: G:\software_biye\keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg52.h>
+   2          #include"global_define.h"
+   3          #include"NRF24L01.h"  
+   4          #include"Delay.h"
+   5          
+   6          extern void InitLcd1602();
+   7          extern void LcdShowStr(unsigned char x, unsigned char y, unsigned char *str);
+   8          
+   9          sbit LED = P1^6 ;
+  10          sbit key1 = P3^4 ;
+  11          sbit key2 = P3^5 ;
+  12          unsigned int baojingzhi = 200;//默认50cm
+  13          unsigned char baojing[8];
+  14          unsigned char ge,shi,bai;
+  15          unsigned int shuiwei ;
+  16          idata unsigned char TxDate[TX_DATA_WITDH]={0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,11,
+             -12};
+  17          
+  18          
+  19          void DelayMs(uint time)
+  20          {
+  21   1              uint i,j;
+  22   1              for(i=time;i>0;i--)
+  23   1                      for(j=112;j>0;j--);
+  24   1      }
+  25          void keyscan()  //设置报警值函数
+  26          {
+  27   1              if(key1==0)        // 报警值加
+  28   1              {
+  29   2                  DelayMs(5);
+  30   2                      if(key1==0)
+  31   2                      {
+  32   3                      while(!key1);
+  33   3                      baojingzhi++;
+  34   3                      if(baojingzhi>=500) baojingzhi = 0;
+  35   3                      baojing[0]=baojingzhi/100+'0';
+  36   3                  baojing[1]=baojingzhi/10%10+'0';
+  37   3                  baojing[2]=baojingzhi%10+'0';
+  38   3                  baojing[3]='\0';
+  39   3      
+  40   3                      LcdShowStr(4,1,baojing);
+  41   3                      NRFSetTxMode(baojing);  //发送
+  42   3                  while(CheckACK_RP());       //检测是否发送完毕,检测应答信号
+  43   3                      Delay_x_ms(200);        
+  44   3                      }
+  45   2              }
+  46   1              if(key2==0)        // 报警值减
+  47   1              {
+  48   2                  DelayMs(5);
+  49   2                      if(key2==0)
+  50   2                      {
+  51   3                      while(!key2);
+  52   3                      baojingzhi--;
+  53   3                      if(baojingzhi<=0) baojingzhi = 0;
+  54   3                      baojing[0]=baojingzhi/100+'0';
+C51 COMPILER V9.00   MAIN                                                                  06/10/2018 13:34:01 PAGE 2   
+
+  55   3                  baojing[1]=baojingzhi/10%10+'0';
+  56   3                  baojing[2]=baojingzhi%10+'0';
+  57   3                  baojing[3]='\0';
+  58   3      
+  59   3                      LcdShowStr(4,1,baojing);
+  60   3                      NRFSetTxMode(baojing);  //发送
+  61   3                  while(CheckACK_RP());       //检测是否发送完毕,检测应答信号
+  62   3                      Delay_x_ms(200);
+  63   3                      }
+  64   2              }
+  65   1      
+  66   1      }
+  67          /*------------------------------------------------
+  68                              定时器初始化子程序
+  69          ------------------------------------------------*/
+  70          void Init_Timer0(void)
+  71          {
+  72   1       TMOD |= 0x01;    //使用模式1，16位定时器，使用"|"符号可以在使用多个定时器时不受影响                 
+  73   1       TH0=(65536-1000)/256;            //重新赋值 1ms
+  74   1       TL0=(65536-1000)%256;
+  75   1       EA=1;            //总中断打开
+  76   1       ET0=1;           //定时器中断打开
+  77   1       TR0=1;           //定时器开关打开
+  78   1       PT0=1;           //优先级打开
+  79   1      }
+  80          void main()
+  81          {
+  82   1         unsigned char buff[8];
+  83   1         uint num=0 ;
+  84   1            
+  85   1      
+  86   1         Init_Timer0();
+  87   1         NRF24L01Int();     
+  88   1         InitLcd1602();    //1602液晶初始化
+  89   1         LcdShowStr(0,0,"Level:");
+  90   1         LcdShowStr(0,1,"Set:200");
+  91   1         
+  92   1         while(1)
+  93   1          {    
+  94   2                   Delay_x_ms(20);             
+  95   2                   NRFSetRXMode();//设置为接收模式
+  96   2                       Delay_x_ms(20);
+  97   2                       GetDate();   //开始接收数据
+  98   2                       Delay_x_ms(20);
+  99   2                   LcdShowStr(6,0,RevTempDate);       //显示
+ 100   2                       bai =  RevTempDate[0]-'0';             //提取百位
+ 101   2                       shi =  RevTempDate[1]-'0';         //提取十位
+ 102   2                       ge  =  RevTempDate[2]-'0';             //提取个位
+ 103   2                       shuiwei = bai*100+shi*10+ge;           //计算
+ 104   2      
+ 105   2                      if(shuiwei<=baojingzhi)     //  当距离小于报警值时报警
+ 106   2                         LED = 0;  
+ 107   2                      else 
+ 108   2                         LED = 1;
+ 109   2      
+ 110   2               }
+ 111   1                       
+ 112   1      
+ 113   1      //              else num = 0;  
+ 114   1              
+ 115   1      }       
+*** WARNING C280 IN LINE 82 OF MAIN.C: 'buff': unreferenced local variable
+C51 COMPILER V9.00   MAIN                                                                  06/10/2018 13:34:01 PAGE 3   
+
+ 116            /*------------------------------------------------
+ 117                           定时器中断子程序
+ 118          ------------------------------------------------*/
+ 119          void Timer0_isr(void) interrupt 1 
+ 120          {
+ 121   1      
+ 122   1       static unsigned int j;
+ 123   1       TH0=(65536-1000)/256;            //重新赋值 1ms
+ 124   1       TL0=(65536-1000)%256;
+ 125   1       keyscan();
+ 126   1       j++;
+ 127   1       if(j>=500)
+ 128   1       {
+ 129   2       j = 0;
+ 130   2       }
+ 131   1        
+ 132   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    554    ----
+   CONSTANT SIZE    =     15    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     17      10
+   IDATA SIZE       =     32    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

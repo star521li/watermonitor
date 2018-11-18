@@ -1,0 +1,16 @@
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\ShuiWei.csprojResolveAssemblyReference.cache
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.Form1.resources
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.Properties.Resources.resources
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\ShuiWei.csproj.GenerateResource.Cache
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\obj\Debug\NongChang.exe
+G:\毕业设计\C#程序\BiYeSheJi\NongChang\NongChang\bin\Debug\NongChang.exe.config
+G:\毕业设计\C#程序\ShuiWei\bin\Debug\MySQLDriverCS.dll
+G:\毕业设计\C#程序\ShuiWei\obj\Debug\ShuiWei.csprojResolveAssemblyReference.cache
+G:\毕业设计\C#程序\ShuiWei\obj\Debug\ShuiWei.csproj.GenerateResource.Cache
+G:\毕业设计\C#程序\ShuiWei\bin\Debug\ShuiWei.exe.config
+G:\毕业设计\C#程序\ShuiWei\bin\Debug\ShuiWei.exe
+G:\毕业设计\C#程序\ShuiWei\bin\Debug\ShuiWei.pdb
+G:\毕业设计\C#程序\ShuiWei\obj\Debug\ShuiWei.Form1.resources
+G:\毕业设计\C#程序\ShuiWei\obj\Debug\ShuiWei.Properties.Resources.resources
+G:\毕业设计\C#程序\ShuiWei\obj\Debug\ShuiWei.exe
+G:\毕业设计\C#程序\ShuiWei\obj\Debug\ShuiWei.pdb
